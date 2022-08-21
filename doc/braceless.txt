@@ -1,4 +1,4 @@
-*braceless.txt*    *braceless*                                        May 28, 2016
+*braceless.txt*  *braceless*                                        May 28, 2016
 
 
             _____ _____ _____ _____ _____ __    _____ _____ _____
@@ -47,33 +47,6 @@ the vim-indent-object plugin in other file types.
 
 See |braceless-taxonomy| for information on what is considered a block.
 
-
-NEWS                                                           *braceless-news*
-==============================================================================
-
-  List of recent additions or changes.
-
-  2016-05-28
-  ---------------------------------------------------------------------------
-
-  * Fixed line continuations after ternary expressions.
-
-  2016-03-25
-  ---------------------------------------------------------------------------
-
-  * A string can be broken into two strings by pressing <cr> within it.
-  * Joining lines with |J| will combine and clean lines, as well as combine
-    strings.  See |braceless-format| for more info.
-
-  2016-03-22
-  ---------------------------------------------------------------------------
-
-  * Fixed line continuations that were being added to docstrings if `and` or
-    `or` was just before the cursor.
-  * The beginning of docstrings makes sure it's inside of a block before
-    aligning itself with it.
-
-
 RATIONALE                                                 *braceless-rationale*
 ==============================================================================
 
@@ -82,11 +55,16 @@ code.  Using plugins that turn indentation into text objects fall short when
 encountering multi-line bits with varying indent levels, or docstrings that
 legally break the indentation.
 
-I started writing this plugin to deal with just that.  When the plugin started
-taking shape, it turned out that I could also add useful folding, and somewhat
-smarter auto-indent.  Also highlighting the block the cursor is on.  Oh, and
-why not throw in some EasyMotion support, too?  So, I slapped cool ASCII text
-art at the top of this thing and now you're sitting here reading about it.
+I started writing this plugin to deal with just that.
+When the plugin started taking shape,
+    it turned out that I could also add useful folding,
+and somewhat smarter auto-indent.
+Also highlighting the block the cursor is on.
+Oh,
+and why not throw in some EasyMotion support,
+too?  So,
+I slapped cool ASCII text art at the top of this thing and
+now you're sitting here reading about it.
 
 
 QUICK START                                              *braceless-quickstart*
@@ -102,24 +80,24 @@ work with other languages and it's up to you to enable it if you want to use
 it in something other than Python.
 
 If you want to just get started, add a line like this to your |vimrc| file:
->
+
   autocmd FileType python,coffee BracelessEnable +indent
-<
-Note: If you are calling |BracelessEnable| with |+indent| from an |ftplugin|
+
+If you are calling |BracelessEnable| with |+indent| from an |ftplugin|
       script, you will want to set |g:braceless_generate_scripts| to 1.
 
 EasyMotion support is enabled by default and allows you to move around by
 braceless text objects.  If you want this feature to be disabled, add the
 following to your |vimrc| file:
->
+
   let g:braceless_enable_easymotion = 0
-<
+
 
 TEXT OBJECT TAXONOMY                                       *braceless-taxonomy*
 ==============================================================================
 
 Python Example
->
+
    1. def fib(n):    # write Fibonacci series up to n
    2.     """Print a Fibonacci series up to n.
    3.
@@ -137,7 +115,7 @@ Python Example
   15.   print('ham')
   16.   more_spam()
 
-<
+
 - Lines 1, 7, and 13 are block heads
 - Lines 1, 7, and 14 are block tails
 - Lines 2-10, 8-9, and 15-16 are block bodies
@@ -151,14 +129,14 @@ are ignored.
 
 Braceless works with other languages by only considering indent level.  Take
 HAML for example:
->
+
   1. #content
   2.   .left.column
   3.     %h2 Welcome to our site!
   4.     %p= print_information
   5.   .right.column
   6.     = render :partial => "sidebar"
-<
+
 Every line is considered a potential block.  When it comes to selecting
 blocks, if a block appears to have no body, selection will use a lower indent
 level instead.  That means that if you are on line 4 and press `vaP`, lines
@@ -218,9 +196,9 @@ This sets the text object key.  This gives you commands like `vaP`, `ciP`,
 `diP`, etc.
 
 Default:
->
+
   let g:braceless_block_key = 'P'
-<
+
 
 *g:braceless_jump_prev_key*
 *g:braceless_jump_next_key*
@@ -229,10 +207,10 @@ By default you can move between block heads using the |[[| and |]]| motions.
 This fits better with VIM's traditional notion of a |section|.
 
 Default:
->
+
   let g:braceless_jump_prev_key = '['
   let g:braceless_jump_next_key = ']'
-<
+
 
 *g:braceless_segment_prev_key*
 *g:braceless_segment_next_key*
@@ -241,18 +219,18 @@ You can enable motions for moving between block indent levels using
 |g[| and |g]|.
 
 Default:
->
+
   let g:braceless_enable_jump_indent = 1
-<
+
 *g:braceless_enable_jump_indent*
 
 Keys used for moving between segments.
 
 Default:
->
+
   let g:braceless_segment_prev_key = 'k'
   let g:braceless_segment_next_key = 'j'
-<
+
 
 *g:braceless_easymotion_prev_key*
 *g:braceless_easymotion_next_key*
@@ -262,11 +240,11 @@ Keys used with EasyMotion.  By default, uses |g:braceless_jump_prev_key| and
 |g:braceless_jump_next_key|.  See: |braceless-easymotion|
 
 Default:
->
+
   let g:braceless_easymotion_prev_key = g:braceless_jump_prev_key
   let g:braceless_easymotion_next_key = g:braceless_jump_next_key
   let g:braceless_easymotion_segment_key = 'S'
-<
+
 
 *g:braceless_generate_scripts*
 
@@ -283,19 +261,19 @@ enable Braceless, those scripts run _after_ Braceless is enabled, undoing the
 changed |indentexpr|.
 
 Default:
->
+
   let g:braceless_generate_scripts = 0
-<
+
 *g:braceless_line_continuation*
->
+
   if True and False:
-<
+
 With the cursor just before the `and`, if you press <enter> in insert mode,
 you will get this:
->
+
   if True \
           and False:
-<
+
 The caveat is that the block needs to be recognized as a complete block.  In
 Python, that means that the colon is somewhere beyond your cursor.
 
@@ -310,9 +288,9 @@ If this option is set to `0`, Braceless will not add a line continuation when
 you press <enter>.
 
 Default:
->
+
   g:braceless_line_continuation = 1
-<
+
 *g:braceless_cont_block*
 *g:braceless_cont_call*
 
@@ -321,10 +299,10 @@ on the PEP8 specification.  These can be set as buffer variables (prefixed
 with |b:| instead of |g:|) if you want to change these on a per-buffer basis.
 
 Default:
->
+
   g:braceless_cont_block = 2
   g:braceless_cont_call = 1
-<
+
 *g:braceless_format*
 
 This is a dictionary that disables certain aspects of formatting.  If you are
@@ -345,28 +323,28 @@ strings.
  - `clean_whitespace`: Removes excess whitespace.
 
 Example Usage:
->
+
   g:braceless_format = {
     \   'join_string': 0,
     \   'clean_string': 0,
     \ }
-<
+
 *g:braceless_auto_dedent_gap*
 
 Sets the number of blank lines between the current line and a block's bottom
 that will cause the cursor to drop one indent level.  It is worth pointing out
-here that |i_CTRL-I| and |i_CTRL-D| are very useful for adjusting the indent in
+here that |i_ctrl-i| and |i_ctrl-d| are very useful for adjusting the indent in
 insert mode.
 
 Default:
->
+
   let g:braceless_auto_dedent_gap = 1
-<
+
 
 FORMATTING                                                   *braceless-format*
 ==============================================================================
 
-Note: Formatting is a work in progress!
+Formatting is a work in progress!
 
 Braceless provides some assistance for refactoring lines of code.  This
 assistance is highly opinionated by default.
@@ -415,7 +393,7 @@ See |braceless-custom-indent| for info on how to write your own indent rules.
 
 FOLDING                                                       *braceless-folds*
 ==============================================================================
-*+fold* *+fold-slow*
+*+fold*  *+fold-slow*
 
 The fold method used is |fold-manual|, but it is managed by Braceless.  Using
 this method, folding via |zc| or |zC| will transparently create or update
@@ -441,7 +419,7 @@ There are caveats to this:
    avoid conflicts since Braceless deletes folds to normalize them before
    updating.
 
-   Note: This will not overwrite existing maps.  This plugin will assume that
+   This will not overwrite existing maps.  This plugin will assume that
    your maps are non-conflicting.
 
  - When a fold is first created, folds are created for all blocks within the
@@ -451,10 +429,10 @@ There are caveats to this:
 
  - If you have custom maps for closing folds, you will need to make them
    recursive, or add them as buffer maps via an autocmd.
->
+
   " Example custom fold close with +fold
   autocmd FileType python nnoremap <space> :<C-u>call braceless#fold#close(line('.'), 0)<cr>
-<
+
 See |braceless-patterns| if you want to customize the pattern used for folding
 blocks.
 
@@ -468,16 +446,16 @@ while.
 
 HIGHLIGHT                                                 *braceless-highlight*
 ==============================================================================
-*+highlight* *+highilght-cc* *+highlight-cc2* *BracelessIndent*
+*+highlight*  *+highilght-cc*  *+highlight-cc2*  *BracelessIndent*
 
 Highlighting can be used to show you what Braceless considers to be the
 operative block.
->
+
   1. if spam \
   2.      and eggs:
   3.   print('ham')
   4.   more_spam()
-<
+
 Using |+highlight| in the |BracelessEnable| command, a solid line will appear
 under the "i" on line 1.
 
@@ -489,9 +467,9 @@ be enabled.  This is useful if you have a giant wall of code.
 
 The group name of the highlight column is |BracelessIndent| and is defaulted
 to:
->
+
   highlight BracelessIndent ctermfg=3 ctermbg=0 cterm=inverse
-<
+
 This uses an inverse style with a foreground color.  This is the only way for
 |+highlight-cc2| to work as described.  Otherwise, the |ColorColumn| style
 will override the background color.
@@ -512,21 +490,22 @@ install it if you haven't already.
 OTHER LANGUAGES                                              *braceless-custom*
 ==============================================================================
 
-If it's a language that uses indentation to define blocks, Braceless should be
-able to do for them what it does for Python.  Python support is not hard
-coded in the core functions, so you should be able to use to use them as
-needed to support your language of choice.  In fact, Python support is
-auxiliary.  Take a look at `autoload/braceless/python.vim` to
-see how it works.
+If it's a language that uses indentation to define blocks,
+Braceless should be able to do for them what it does for Python.
+Python support is not hard coded in the core functions,
+    so you should be able to use to use them as needed to support your language of choice.
+Python support is auxiliary.
+    Take a look at `autoload/braceless/python.vim` to see how it works.
 
-There are a couple |autocmd|s and functions that can help get your
-customizations setup when Braceless is enabled.
+ There are a couple |autocmd|s and
+functions that can help get your customizations setup when Braceless is enabled.
+
 
 *BracelessInit*                   Called when Braceless is enabled for the
                                 first time, giving you a chance to define
                                 patterns, or anything else that requires
                                 Braceless to be present.
->
+
   function! s:my_init()
     " Only allow jumping to `if` statements.
     let g:braceless#pattern#python = {'jump': '\%(if\)\_.\{-}:'}
@@ -534,17 +513,17 @@ customizations setup when Braceless is enabled.
 
   autocmd User BracelessInit call s:my_init()
 
-<
+
 *BracelessEnabled_<filetype>*     Called when Braceless is enabled in a
                                 buffer.  This is where you would setup custom
                                 indent, folding, key maps, and so on.
->
+
   function! s:my_enabled()
     ...
   endfunction
 
   autocmd User BracelessEnabled_haml call s:my_enabled()
-<
+
 
 CUSTOM INDENT                                         *braceless-custom-indent*
 ==============================================================================
@@ -588,7 +567,7 @@ Braceless can be customized to match blocks in different languages.  Keep in
 mind that this plugin is designed to deal with indented blocks.
 
 A pattern can be defined using:
->
+
   let g:braceless#pattern#<filetype> = {
   \   'start': '',
   \   'stop': '',
@@ -596,7 +575,7 @@ A pattern can be defined using:
   \   'fold': '',
   \   'easymotion': '',
   \ }
-<
+
 The keys mentioned above defines a regexp |pattern|.  The most important being
 `start` which is used as the default for `jump`, `fold`, and `easymotion` if they are
 missing.  The `stop` pattern helps Braceless understand where the block ends,
@@ -611,23 +590,23 @@ and end of your patterns as needed.
 
 For example, here is the default `start` pattern (shortened for the example)
 for Python:
->
+
  \%(if\|def\|for\|elif\|else\|with\|class\|while\)\_.\{-}:
-<
+
 This pattern searches for the text in the first atom followed by any character
 (including newlines, as few as possible), followed by a colon.  When selecting
 a block at indent level 1, the pattern is transformed into:
->
+
  ^ \{-,4}\zs\<\%(if\|def\|for\|elif\|else\|with\|class\|while\)\>\_.\{-}:
-<
+
 The exception is the `fold` key.  Braceless will not prefix this pattern since
 indent accuracy isn't a concern with folds.  To fold only on `class` or `def`
 blocks, you could use the following pattern:
->
+
   let braceless#pattern#python = {
   \   'fold': '\<\%(def\|class\)\>\_.\{-}:\s*\%(\_$\|#\)'
   \ }
-<
+
 Look at `autoload/braceless.vim` for a more complicated example for
 CoffeeScript.
 
@@ -635,11 +614,11 @@ If you want to override a default pattern, you only need to define the key you
 wish to override.  For example, suppose you want |[[| and |]]| to only move
 to `class` and `def` blocks, while retaining the ability to select other
 blocks:
->
+
   let g:braceless#pattern#python = {
   \   'jump': '\<\%(def\|class\)\>\_.\{-}:\ze\s*\%(\_$\|#\)',
   \ }
-<
+
 
 LICENSE                                                     *braceless-license*
 ==============================================================================
@@ -667,4 +646,5 @@ SOFTWARE.
 
 
 ==============================================================================
-vim:tw=78:ts=8:ft=help:norl:
+DIY_again
+DIY_2  vim:filetype=help:syntax=help:
